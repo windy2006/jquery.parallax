@@ -2,7 +2,7 @@
 --------
 本插件对某一父元素下的所有一级子元素设置背景视差效果，并对该子元素下一级孙元素设定出现效果。
 
-本插件可在PC或移动端使用，如果是移动端会判断手机方向是否正确，以保证拍摄正向的视频。
+本插件可在 PC 或移动端使用，支持普通页面滚动和全屏容器滚动。
 
 请参考：[演示页面](https://windy2006.github.io/jquery.parallax/)
 
@@ -12,7 +12,7 @@
 
 ```html
 <link href="/path/to/jquery.parallax.css" rel="stylesheet">
-<script type="text/javascript" src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="vendor/jquery-4.0.0.min.js"></script>
 <script type="text/javascript" src="/path/to/jquery.parallax.js"></script>
 ```
 
@@ -53,3 +53,15 @@ flip-y
 zoom
 ```
 如果定义为 random 或 rand 的话，会从以上效果中任意选取一种。
+
+### 新增设置（2026-10-24）
+
+`mode: 0` 普通页面滚动，`mode: 1` 全屏容器滚动（CSS Scroll Snap，支持滚轮与触控）。`repeat: false` 默认只播放一次；设为 true 时，元素完全滚出可视区域后再次进入会重播。示例顶部可直接切换，不改变原有内容。`offset` 为顶部工具栏高度。可重复调用 parallax(options) 更新配置，或调用 parallax('destroy') 清理。
+
+## 2026-10-24 更新
+
+保留原 jQuery 插件接口与样例主体，示例使用本地 jQuery 4.0.0、Bootstrap 5.3.8。`vendor/original-theme.css` 维持原示例的布局外观；上游许可证随依赖保留。
+
+修复全屏滚动与重播同时开启时的内容偶发隐藏：根据未参与动画的区块边界判断进出，在滚动帧及吸附结束时更新状态，完全离开后才重置动画。保留原效果类型和自定义显示函数。
+
+本地预览：在仓库目录运行 `python3 -m http.server 8765`，打开 http://localhost:8765/。

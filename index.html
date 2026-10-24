@@ -5,8 +5,9 @@
 	<title>视差展示</title>
 	<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-	<link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.3/css/bootstrap.min.css" rel="stylesheet">
-	<link href="jquery.parallax.css" rel="stylesheet">
+	<link href="vendor/bootstrap-5.3.8.min.css" rel="stylesheet">
+<link href="vendor/original-theme.css" rel="stylesheet">
+	<link href="jquery.parallax.css?v=20261024-frameworks" rel="stylesheet">
 	<style type="text/css" rel="stylesheet">
 		.list_item:last-child .index .index-divider {
 			border-width: 0;
@@ -61,6 +62,9 @@
 	</style>
 </head>
 <body class="p-0">
+<div id="parallax-settings" style="position:sticky;top:0;z-index:10000;background:#fff;border-bottom:1px solid #ddd;padding:10px 16px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;font-size:14px;">
+<a href="https://github.com/windy2006/jquery.parallax">GitHub 项目</a><label style="margin:0;">滚动模式 <select id="scroll-mode"><option value="0">普通滚动</option><option value="1">全屏滚动</option></select></label>
+<label style="margin:0;"><input id="repeat-animation" type="checkbox"> 滚出窗口后再次进入时重播动画</label></div>
 <div id="main" class="container-fluid">
 	<div class="row p-5" data-bg="bg/1.jpg" data-rate="0.2" data-effect="zoom" data-func="custom_show">
 		<h1 class="col-12 text-center mb-5">联盟职能</h1>
@@ -295,10 +299,15 @@
 	</div>
 </div>
 </body>
-<script type="text/javascript" src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script type="text/javascript" src="jquery.parallax.js"></script>
+<script type="text/javascript" src="vendor/jquery-4.0.0.min.js"></script>
+<script type="text/javascript" src="jquery.parallax.js?v=20261024-replay-fix"></script>
 <script type="text/javascript">
-	$('#main').parallax();
+    function applySettings(){
+        const mode=Number($('#scroll-mode').val()),repeat=$('#repeat-animation').prop('checked');
+        $('#main').parallax({mode,repeat,offset:document.querySelector('#parallax-settings').offsetHeight});
+    }
+    applySettings();
+    $('#scroll-mode,#repeat-animation').on('change',applySettings);
 	function custom_show(obj, mode) {
 		obj.children().addClass('animation animation_'+mode);
 	}
